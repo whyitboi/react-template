@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import App from './src/App';
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import App from "/src/App";
 
 // describe('something truthy and falsey', () => {
 //   it('true to be tru', () => {
@@ -11,9 +12,18 @@ import App from './src/App';
 //   });
 // });
 
-describe('App component', () => {
-  it('renders correct heading', () => {
+describe("App component", () => {
+  it("renders maginificent monkeys", () => {
+    const { container } = render(<App />);
+    expect(container).toMatchSnapshot();
+  });
+  it("renders radical rhinos after button click", async () => {
+    const user = userEvent.setup();
+
     render(<App />);
-    expect(screen.getByRole('heading').textContent).toMatch(/our first query/i);
+    const button = screen.getByRole("button", { name: "Click Me" });
+    await user.click(button);
+
+    expect(screen.getByRole("heading").textContent).toMatch(/radical rhinos/i);
   });
 });
